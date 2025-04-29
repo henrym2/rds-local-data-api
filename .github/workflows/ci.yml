@@ -33,8 +33,11 @@ jobs:
     - name: test 
       run: ./gradlew clean shadowJar test jacocoTestReport
       working-directory: ./kotlin/local-data-api/
-    - name: integration test
+
+    - name: stup compose
       uses: docker/setup-compose-action@v1
+
+    - name: integration test
       run: |
         ./scripts/integration-test.sh 
     - name: setup python
