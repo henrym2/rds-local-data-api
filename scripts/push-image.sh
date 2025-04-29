@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-IMAGE=koxudaxi/local-data-api
-VERSION=`python3 setup.py --version`
+IMAGE=henrymj2/local-rds-data-api
+VERSION=$(python3 setup.py --version)
 
 echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
 

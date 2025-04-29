@@ -1,5 +1,7 @@
 package com.koxudaxi.localDataApi
 
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.*
 import java.sql.*
 import java.sql.Types.ARRAY
 import java.time.OffsetDateTime
@@ -109,14 +111,14 @@ val Statement.updateResults: List<List<Field>>
     }
 
 
-val Statement.records: List<List<Field>>
+val Statement.values : List<List<Any?>>
     get() {
-        val records = mutableListOf<List<Field>>()
+        val records = mutableListOf<List<Any?>>()
         while (resultSet.next()) {
             this.resultSet.metaData.let { metaData ->
                 records.add(
                     IntRange(1, metaData.columnCount).map { index ->
-                        createField(resultSet, index)
+                        getFieldValue(resultSet, index)
                     }.toList()
                 )
             }
@@ -145,6 +147,33 @@ fun createColumnMetadata(resultSet: ResultSet): List<ColumnMetadata> {
             )
         }.toList()
     }
+}
+
+fun createRecords(values: List<List<Any?>>): List<List<Field>> {
+    return values.map { recordValues ->
+        recordValues.map { value ->
+          Field.fromValue(value)
+        }
+    }
+}
+
+
+fun createFormattedJson(columnMetadata: List<ColumnMetadata>, values: List<List<Any?>>): String {
+
+    val jsonObjects: MutableList<JsonObject> = mutableListOf()
+
+    values.forEach { recordValues ->
+        val recordMap = mutableMapOf<String, Any?>();
+        recordValues.forEachIndexed { index, recordValue ->
+            val columnLabel = columnMetadata[index].label
+            if (columnLabel != null) {
+                recordMap[columnLabel] = recordValue
+            }
+        }
+        jsonObjects.add(JsonObject(recordMap.toJsonObject()))
+    }
+
+    return Json.encodeToString(jsonObjects)
 }
 
 

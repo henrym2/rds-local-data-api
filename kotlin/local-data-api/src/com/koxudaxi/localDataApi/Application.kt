@@ -109,11 +109,15 @@ fun Application.module(testing: Boolean = false) {
                 val resultSet = statement.resultSet
                 val updatedCount = if (statement.updateCount < 0) 0 else statement.updateCount
                 val executeStatementResponse = if (resultSet is ResultSet) {
+                    val values = statement.values
                     ExecuteStatementResponse(
                         updatedCount,
                         null,
-                        statement.records,
-                        if (request.includeResultMetadata) createColumnMetadata(resultSet) else null
+                        if (request.formatRecordsAs == null || request.formatRecordsAs != "JSON")
+                          createRecords(values) else null,
+                        if (request.includeResultMetadata) createColumnMetadata(resultSet) else null,
+                        if (request.formatRecordsAs != null && request.formatRecordsAs == "JSON")
+                            createFormattedJson(createColumnMetadata(resultSet), values) else null
                     )
                 } else {
                     ExecuteStatementResponse(
