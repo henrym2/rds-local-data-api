@@ -11,6 +11,9 @@ import org.junit.After
 import org.junit.Before
 import java.sql.Connection
 import java.sql.DriverManager
+import kotlin.collections.containsKey
+import kotlin.text.get
+import kotlin.toString
 
 class ApplicationTest {
     private val dummyResourceArn = "arn:aws:rds:us-east-1:123456789012:cluster:test"
@@ -123,6 +126,16 @@ class ApplicationTest {
                 assertEquals(
                     """{"numberOfRecordsUpdated":0,"formattedRecords":"[{\"1\":1}]"}""",
                     response.content)
+                val jsonResponse = Json.parseToJsonElement(response.content!!).jsonObject
+                val formattedRecordsString = jsonResponse["formattedRecords"]?.jsonPrimitive?.content
+                    ?: throw AssertionError("formattedRecords is missing or not a string")
+
+                val formattedRecords = Json.parseToJsonElement(formattedRecordsString).jsonArray
+
+                formattedRecords.forEach { record ->
+                    val recordObject = record.jsonObject
+                    assertTrue(recordObject.containsKey("1"), "Record is missing expected key: 1")
+                }
             }
         }
     }
