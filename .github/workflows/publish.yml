@@ -13,7 +13,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: koxudaxi/local-data-api
+          images: henrymj2/local-rds-data-api
           tag-semver: |
             {{raw}}
       - name: Cache
