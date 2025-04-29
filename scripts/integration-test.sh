@@ -144,7 +144,7 @@ cd "$cwd"
 # MySQL E2E
 #
 
-docker-compose -f ./docker-compose-mysql.yml -f ./docker-compose.override-ci.yml up --build --force-recreate -d
+docker compose -f ./docker-compose-mysql.yml -f ./docker-compose.override-ci.yml up --build --force-recreate -d
 test mysql # run tests declared above
 echo ' ✅ MySQL E2E completed successfully'
 down mysql
@@ -153,7 +153,7 @@ down mysql
 # PostgreSQL E2E
 #
 
-docker-compose -f ./docker-compose-postgres.yml -f ./docker-compose.override-ci.yml up --build --force-recreate -d
+docker compose -f ./docker-compose-postgres.yml -f ./docker-compose.override-ci.yml up --build --force-recreate -d
 test pg # run tests declared above
 echo ' ✅ PostgreSQL E2E completed successfully'
 down pg
