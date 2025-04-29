@@ -10,6 +10,7 @@ set -ex
 
 export RDS_DATA_API_CLIENT_RESOURCE_ARN=arn:aws:rds:us-east-1:123456789012:cluster:dummy
 export RDS_DATA_API_CLIENT_SECRETARN=arn:aws:secretsmanager:us-east-1:123456789012:secret:dummy
+export AWS_REGION="eu-west-1"
 
 function down {
 	db=$1 # arg 1 is the db type, 'pg' or 'mysql' or no value
