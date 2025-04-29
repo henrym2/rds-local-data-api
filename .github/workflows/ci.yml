@@ -34,6 +34,7 @@ jobs:
       run: ./gradlew clean shadowJar test jacocoTestReport
       working-directory: ./kotlin/local-data-api/
     - name: integration test
+      uses: docker/setup-compose-action@v1
       run: |
         ./scripts/integration-test.sh 
     - name: setup python
