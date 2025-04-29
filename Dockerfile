@@ -1,6 +1,6 @@
 FROM tiangolo/uvicorn-gunicorn:python3.8-slim
 
-LABEL maintainer="Koudai Aono <koxudaxi@gmail.com>"
+LABEL maintainer="Matthew Henry <henrymj2@proton.me>"
 
 ENV MODULE_NAME local_data_api.main
 ENV MARIADB_CLIENT_VERSION 2.5.0
