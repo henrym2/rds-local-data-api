@@ -15,7 +15,7 @@ RUN  mkdir -p /usr/share/man/man1 \
   && apt-get update && apt-get install -y openjdk-17-jre libpq-dev  \
   && savedAptMark="$(apt-mark showmanual)" \
   && apt-get install -y gcc curl \
-  && pip install JPype1==1.2.0 psycopg2==2.8.5\
+  # && pip install JPype1==1.2.0 psycopg2==2.8.5\
   && curl -o /usr/lib/jvm/mariadb-java-client.jar \
   https://downloads.mariadb.com/Connectors/java/connector-java-${MARIADB_CLIENT_VERSION}/mariadb-java-client-${MARIADB_CLIENT_VERSION}.jar \
   && curl -o /usr/lib/jvm/postgresql-java-client.jar \
@@ -31,6 +31,6 @@ COPY setup.cfg /app
 COPY LICENSE /app
 WORKDIR /app
 
-RUN pip install .
+# RUN pip install .
 
 COPY local_data_api /app/local_data_api
